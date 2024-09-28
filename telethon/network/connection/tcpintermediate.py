@@ -1,8 +1,8 @@
 import struct
-import random
 import os
 
 from .connection import Connection, PacketCodec
+import secrets
 
 
 class IntermediatePacketCodec(PacketCodec):
@@ -26,7 +26,7 @@ class RandomizedIntermediatePacketCodec(IntermediatePacketCodec):
     obfuscate_tag = b'\xdd\xdd\xdd\xdd'
 
     def encode_packet(self, data):
-        pad_size = random.randint(0, 3)
+        pad_size = secrets.SystemRandom().randint(0, 3)
         padding = os.urandom(pad_size)
         return super().encode_packet(data + padding)
 
