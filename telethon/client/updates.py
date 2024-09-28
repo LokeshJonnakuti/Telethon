@@ -1,7 +1,6 @@
 import asyncio
 import inspect
 import itertools
-import random
 import sys
 import time
 import traceback
@@ -17,6 +16,7 @@ from ..tl import types, functions
 from .._updates import GapError, PrematureEndReason
 from ..helpers import get_running_loop
 from ..version import __version__
+import secrets
 
 
 if typing.TYPE_CHECKING:
@@ -480,7 +480,7 @@ class UpdateMethods:
 
     async def _keepalive_loop(self: 'TelegramClient'):
         # Pings' ID don't really need to be secure, just "random"
-        rnd = lambda: random.randrange(-2**63, 2**63)
+        rnd = lambda: secrets.SystemRandom().randrange(-2**63, 2**63)
         while self.is_connected():
             try:
                 await asyncio.wait_for(
